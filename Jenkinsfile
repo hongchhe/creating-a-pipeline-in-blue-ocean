@@ -12,7 +12,7 @@ pipeline {
         stage('t1') {
           steps {
             echo 't1 branch run';
-            echo env;
+            sh 'printenv';
             echo changeset;
           }
         }
@@ -21,6 +21,12 @@ pipeline {
           steps {
             sleep 3
             sh 'echo $test_val'
+          }
+        }
+
+        stage('print_env'){
+          steps {
+            echo sh(script: 'env|sort', returnStdout: true)
           }
         }
 
