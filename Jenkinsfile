@@ -32,7 +32,6 @@ pipeline {
         stage('print_env'){
           steps {
             echo sh(script: 'env|sort', returnStdout: true)
-            echo sh(script: 'changeset', returnStdout: true)
           }
         }
 
@@ -57,9 +56,8 @@ pipeline {
         }
 
         steps {
-          echo "print the environment"
-          echo env;
-          echo changeset;
+          echo "print the environment";
+          echo sh(script: 'changeset', returnStdout: true)
         }
     }
 
