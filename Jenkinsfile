@@ -1,5 +1,11 @@
 pipeline {
   agent any
+
+  environment {
+      DISABLE_AUTH = 'true'
+      DB_ENGINE    = 'sqlite'
+  }
+
   stages {
     stage('stage_1') {
       steps {
@@ -13,7 +19,6 @@ pipeline {
           steps {
             echo 't1 branch run';
             sh 'printenv';
-            echo changeset;
           }
         }
 
@@ -27,10 +32,19 @@ pipeline {
         stage('print_env'){
           steps {
             echo sh(script: 'env|sort', returnStdout: true)
+            echo sh(script: 'changeset', returnStdout: true)
           }
         }
 
       }
+    }
+
+    stage('Environment') {
+        steps {
+            echo "Database engine is ${DB_ENGINE}"
+            echo "DISABLE_AUTH is ${DISABLE_AUTH}"
+            sh 'printenv'
+        }
     }
 
     stage('Build') {
