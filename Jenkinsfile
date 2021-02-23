@@ -7,9 +7,29 @@ pipeline {
       }
     }
 
-    stage('') {
+    stage('stage_2') {
+      parallel {
+        stage('t1') {
+          steps {
+            echo 't1 branch run'
+          }
+        }
+
+        stage('test') {
+          steps {
+            node(label: 'node_label_1') {
+              echo 'node_label_1'
+            }
+
+          }
+        }
+
+      }
+    }
+
+    stage('end') {
       steps {
-        echo 'Success'
+        echo 'End'
       }
     }
 
