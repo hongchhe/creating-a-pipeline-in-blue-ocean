@@ -1,9 +1,9 @@
 pipeline {
   agent any
-
   environment {
-      DISABLE_AUTH = 'true'
-      DB_ENGINE    = 'sqlite'
+    TEST_VAL = '11'
+    DISABLE_AUTH = 'true'
+    DB_ENGINE    = 'sqlite'
   }
 
   stages {
@@ -25,7 +25,7 @@ pipeline {
         stage('test') {
           steps {
             sleep 3
-            sh 'echo $test_val'
+            sh 'echo $TEST_VAL'
           }
         }
 
@@ -70,7 +70,5 @@ pipeline {
     }
 
   }
-  environment {
-    test_val = '11'
-  }
+
 }
