@@ -11,7 +11,9 @@ pipeline {
       parallel {
         stage('t1') {
           steps {
-            echo 't1 branch run'
+            echo 't1 branch run';
+            echo env;
+            echo changeset;
           }
         }
 
@@ -26,6 +28,20 @@ pipeline {
 
       }
     }
+
+    stage('Build') {
+        when {
+            anyOf {
+                environment name: 'FORCE_DEPLOY', value: 'yes'
+                environment name: 'BUILD_NUMBER', value: '1'
+                changeset caseSensitive: true, pattern: '**/*'
+            }
+        }
+
+        steps {
+          echo env;
+          echo changeset;
+        }
 
     stage('end') {
       steps {
