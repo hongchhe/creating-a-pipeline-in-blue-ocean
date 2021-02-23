@@ -37,6 +37,7 @@ pipeline {
         }
 
         steps {
+          echo "print the environment"
           echo env;
           echo changeset;
         }
