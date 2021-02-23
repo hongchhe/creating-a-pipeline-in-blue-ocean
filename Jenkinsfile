@@ -17,10 +17,8 @@ pipeline {
 
         stage('test') {
           steps {
-            node(label: 'node_label_1') {
-              echo 'node_label_1'
-            }
-
+            sleep 3
+            sh 'echo $test_val'
           }
         }
 
