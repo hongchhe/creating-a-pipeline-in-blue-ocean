@@ -41,6 +41,7 @@ pipeline {
           echo env;
           echo changeset;
         }
+    }
 
     stage('end') {
       steps {
