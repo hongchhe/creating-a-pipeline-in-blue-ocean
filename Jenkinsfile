@@ -1,5 +1,11 @@
 pipeline {
-  agent any
+  // agent any
+  agent {
+    docker {
+      image 'node:6-alpine' 
+      args '-p 3000:3000' 
+    }
+  }
   environment {
     TEST_VAL = '11'
     DISABLE_AUTH = 'true'
@@ -57,8 +63,15 @@ pipeline {
 
         steps {
           echo "print the environment";
-          echo sh(script: 'changeset', returnStdout: true)
+          // echo sh(script: 'changeset', returnStdout: true)
+          sh 'npm install' 
         }
+    }
+
+    stage('Test') { 
+      steps {
+        sh './jenkins/scripts/test.sh' 
+      }
     }
 
     stage('end') {
