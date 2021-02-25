@@ -1,15 +1,26 @@
 pipeline {
-  agent {
-    docker {
-      image 'node:6-alpine'
-      args '-p 3000:3000'
-    }
+  agent any
+  // agent {
+  //   docker {
+  //     image 'node:6-alpine' 
+  //     args '-p 3000:3000' 
+  //   }
+  // }
+  environment {
+    TEST_VAL = '11'
+    DISABLE_AUTH = 'true'
+    DB_ENGINE    = 'sqlite'
+  }
+
 
   }
   stages {
     stage('stage_1') {
       steps {
-        sh 'echo "good"'
+        sh '''
+		       echo 'Hello, world!'
+	      '''
+        logstashSend failBuild: true, maxLines: 1000
       }
     }
 
@@ -38,13 +49,14 @@ pipeline {
       }
     }
 
-    stage('Environment') {
-      steps {
-        echo "Database engine is ${DB_ENGINE}"
-        echo "DISABLE_AUTH is ${DISABLE_AUTH}"
-        sh 'printenv'
-      }
-    }
+    // stage('Environment') {
+    //     steps {
+    //         echo "Database engine is ${DB_ENGINE}"
+    //         echo "DISABLE_AUTH is ${DISABLE_AUTH}"
+    //         sh 'printenv'
+    //     }
+    // }
+
 
     stage('Build') {
       when {
@@ -54,11 +66,12 @@ pipeline {
           changeset caseSensitive: true, pattern: '**/*'
         }
 
-      }
       steps {
-        echo 'print the environment'
-        sh 'npm install'
+        echo "print the environment";
+        // echo sh(script: 'changeset', returnStdout: true)
+        // sh 'npm install' 
       }
+
     }
 
     stage('Test') {
