@@ -1,17 +1,11 @@
 pipeline {
-  // agent any
   agent {
     docker {
-      image 'node:6-alpine' 
-      args '-p 3000:3000' 
+      image 'node:6-alpine'
+      args '-p 3000:3000'
     }
-  }
-  environment {
-    TEST_VAL = '11'
-    DISABLE_AUTH = 'true'
-    DB_ENGINE    = 'sqlite'
-  }
 
+  }
   stages {
     stage('stage_1') {
       steps {
@@ -23,8 +17,8 @@ pipeline {
       parallel {
         stage('t1') {
           steps {
-            echo 't1 branch run';
-            sh 'printenv';
+            echo 't1 branch run'
+            sh 'printenv'
           }
         }
 
@@ -35,7 +29,7 @@ pipeline {
           }
         }
 
-        stage('print_env'){
+        stage('print_env') {
           steps {
             echo sh(script: 'env|sort', returnStdout: true)
           }
@@ -45,32 +39,31 @@ pipeline {
     }
 
     stage('Environment') {
-        steps {
-            echo "Database engine is ${DB_ENGINE}"
-            echo "DISABLE_AUTH is ${DISABLE_AUTH}"
-            sh 'printenv'
-        }
+      steps {
+        echo "Database engine is ${DB_ENGINE}"
+        echo "DISABLE_AUTH is ${DISABLE_AUTH}"
+        sh 'printenv'
+      }
     }
 
     stage('Build') {
-        when {
-            anyOf {
-                environment name: 'FORCE_DEPLOY', value: 'yes'
-                environment name: 'BUILD_NUMBER', value: '1'
-                changeset caseSensitive: true, pattern: '**/*'
-            }
+      when {
+        anyOf {
+          environment name: 'FORCE_DEPLOY', value: 'yes'
+          environment name: 'BUILD_NUMBER', value: '1'
+          changeset caseSensitive: true, pattern: '**/*'
         }
 
-        steps {
-          echo "print the environment";
-          // echo sh(script: 'changeset', returnStdout: true)
-          sh 'npm install' 
-        }
+      }
+      steps {
+        echo 'print the environment'
+        sh 'npm install'
+      }
     }
 
-    stage('Test') { 
+    stage('Test') {
       steps {
-        sh './jenkins/scripts/test.sh' 
+        sh './jenkins/scripts/test.sh'
       }
     }
 
@@ -81,5 +74,9 @@ pipeline {
     }
 
   }
-
+  environment {
+    TEST_VAL = '11'
+    DISABLE_AUTH = 'true'
+    DB_ENGINE = 'sqlite'
+  }
 }
