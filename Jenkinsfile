@@ -24,7 +24,7 @@ pipeline {
 
         stage('test') {
           steps {
-            sleep 3
+            sleep 2
             sh 'echo $TEST_VAL'
           }
         }
