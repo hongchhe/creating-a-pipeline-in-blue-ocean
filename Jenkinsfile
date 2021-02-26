@@ -63,6 +63,7 @@ pipeline {
           environment name: 'BUILD_NUMBER', value: '1'
           changeset caseSensitive: true, pattern: '**/*'
         }
+      }
 
       steps {
         echo "print the environment";
@@ -85,9 +86,5 @@ pipeline {
     }
 
   }
-  environment {
-    TEST_VAL = '11'
-    DISABLE_AUTH = 'true'
-    DB_ENGINE = 'sqlite'
-  }
+
 }
