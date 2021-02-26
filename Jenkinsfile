@@ -12,8 +12,6 @@ pipeline {
     DB_ENGINE    = 'sqlite'
   }
 
-
-  }
   stages {
     stage('stage_1') {
       steps {
