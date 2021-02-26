@@ -28,7 +28,7 @@ pipeline {
       parallel {
         stage('t1') {
           steps {
-            echo 't1 branch run'
+            echo 't1 branch run11'
             sh 'printenv'
           }
         }
